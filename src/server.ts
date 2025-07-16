@@ -1,4 +1,4 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import fs from "node:fs/promises"
@@ -29,6 +29,33 @@ server.resource("users", "users://all",
         };
     }
 )
+
+//const user = users.find(u => u.id === parseInt(userId as string))
+
+server.resource("user-details", new ResourceTemplate("users://{userId}/profile",{list:undefined}), {
+    description: "Get a user's details from the database",
+    title:"User Details",
+    mimeType: "application/json"
+}, async (uri, { userId }) => {
+    const users = await import("./data/users.json", {
+            with: { type: "json" }
+        }).then(m => m.default);
+        const user = users.find(u => u.id === parseInt(userId as string));
+        if (user == null) {
+            return {
+                contents: [{
+                    uri: uri.href,
+                    text:JSON.stringify({error: "User not found"}),
+                    mimeType: "application/json"
+                }]
+            }
+        }
+        return {
+            contents: [{ uri: uri.href, text: JSON.stringify(user), mimeType: "application/json" }]
+        };
+})
+
+
 server.tool("create-user", "Create a new user in the database", {
     name: z.string(),
     email: z.string(),
