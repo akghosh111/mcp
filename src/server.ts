@@ -55,6 +55,25 @@ server.resource("user-details", new ResourceTemplate("users://{userId}/profile",
         };
 })
 
+server.prompt("generate-fake-user", "Generate a fake user based on a given name",
+    {
+        name: z.string(),
+    },
+    ({ name }) => {
+        return {
+            messages: [
+                {
+                    role: "user",
+                    content: {
+                        type: "text",
+                        text: `Generate a fake user with the name ${name}. The user should have a realistic email, address, and phone number`
+                    }
+                },
+            ]
+        }
+    }
+)
+
 
 server.tool("create-user", "Create a new user in the database", {
     name: z.string(),
