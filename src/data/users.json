@@ -33,5 +33,19 @@
     "email": "user@example.com",
     "address": "123 Main St",
     "phone": "123-456-7890"
+  },
+  {
+    "id": 6,
+    "name": "Jessica Ramirez",
+    "email": "jessica.ramirez82@gmail.com",
+    "address": "1842 Willowbrook Lane, San Antonio, TX 78230",
+    "phone": "+1-210-555-3478"
+  },
+  {
+    "id": 7,
+    "name": "Jessica Ramirez",
+    "email": "jessica.ramirez82@gmail.com",
+    "address": "1842 Willow Creek Dr, Austin, TX 78741",
+    "phone": "(512) 555-3478"
   }
 ]
